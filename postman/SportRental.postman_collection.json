@@ -1,0 +1,256 @@
+{
+  "info": {
+    "name": "Sport Rental — финальный проект",
+    "description": "Проверка системы проката спортинвентаря через API Gateway: пользователи, инвентарь, аренда, уведомления. Переменные userId / equipmentId / rentalId подставляйте из ответов или задайте в окружении.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "userId", "value": "1" },
+    { "key": "equipmentId", "value": "1" },
+    { "key": "rentalId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "0. Health",
+      "item": [
+        {
+          "name": "Gateway health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"] }
+          }
+        },
+        {
+          "name": "Gateway info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/", "host": ["{{baseUrl}}"], "path": [""] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "1. Users",
+      "item": [
+        {
+          "name": "Create user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.collectionVariables.set('userId', body.id);",
+                  "pm.test('created', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Иван Петров\",\n  \"email\": \"ivan{{$timestamp}}@example.com\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/users", "host": ["{{baseUrl}}"], "path": ["api", "users"] }
+          }
+        },
+        {
+          "name": "List users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/users", "host": ["{{baseUrl}}"], "path": ["api", "users"] }
+          }
+        },
+        {
+          "name": "Get user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Equipment",
+      "item": [
+        {
+          "name": "List equipment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/equipment", "host": ["{{baseUrl}}"], "path": ["api", "equipment"] }
+          }
+        },
+        {
+          "name": "List equipment by category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/equipment?category=Туризм",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "equipment"],
+              "query": [{ "key": "category", "value": "Туризм" }]
+            }
+          }
+        },
+        {
+          "name": "Get equipment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/equipment/{{equipmentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "equipment", "{{equipmentId}}"]
+            }
+          }
+        },
+        {
+          "name": "Create equipment",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.collectionVariables.set('equipmentId', body.id);",
+                  "pm.test('created', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Каяк двухместный {{$timestamp}}\",\n  \"category\": \"Водный спорт\",\n  \"dailyPrice\": 1400.00,\n  \"totalQuantity\": 2\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/equipment", "host": ["{{baseUrl}}"], "path": ["api", "equipment"] }
+          }
+        },
+        {
+          "name": "Reserve equipment (internal)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"quantity\": 1\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/api/equipment/{{equipmentId}}/reserve",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "equipment", "{{equipmentId}}", "reserve"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Rentals",
+      "item": [
+        {
+          "name": "Create rental",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.collectionVariables.set('rentalId', body.id);",
+                  "pm.test('created', () => pm.response.to.have.status(201));",
+                  "pm.test('active', () => pm.expect(body.status).to.eql('ACTIVE'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": {{userId}},\n  \"equipmentId\": {{equipmentId}},\n  \"quantity\": 1,\n  \"days\": 3\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/rentals", "host": ["{{baseUrl}}"], "path": ["api", "rentals"] }
+          }
+        },
+        {
+          "name": "List rentals",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/rentals", "host": ["{{baseUrl}}"], "path": ["api", "rentals"] }
+          }
+        },
+        {
+          "name": "Get rental",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/rentals/{{rentalId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rentals", "{{rentalId}}"]
+            }
+          }
+        },
+        {
+          "name": "Return rental",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/rentals/{{rentalId}}/return",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rentals", "{{rentalId}}", "return"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Notifications",
+      "item": [
+        {
+          "name": "List notifications",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notifications?limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notifications"],
+              "query": [{ "key": "limit", "value": "10" }]
+            }
+          }
+        },
+        {
+          "name": "Send notification",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"MANUAL_TEST\",\n  \"recipient\": \"ivan@example.com\",\n  \"message\": \"Проверка канала уведомлений\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/notifications",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "notifications"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="C4Generator" version="24.7.7">
+  <diagram id="c4-context" name="C4 Context">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="C4 Level 1 — System Context" style="text;html=1;align=left;verticalAlign=top;fillColor=none;strokeColor=none;whiteSpace=wrap;fontSize=24;fontStyle=1;fontColor=#1F2933;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1000" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="subtitle" value="Кто пользуется системой проката и с чем она взаимодействует снаружи" style="text;html=1;align=left;verticalAlign=top;fillColor=none;strokeColor=none;whiteSpace=wrap;fontSize=14;fontColor=#52606D;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="1200" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="note-0" value="PostgreSQL и микросервисы — внутреннее устройство системы, они показаны на уровне Container." style="text;html=1;align=left;verticalAlign=top;fillColor=none;strokeColor=none;whiteSpace=wrap;fontSize=12;fontColor=#52606D;" vertex="1" parent="1">
+          <mxGeometry x="60" y="692" width="1300" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="client" value="&lt;b&gt;Клиент пункта проката&lt;/b&gt;&lt;br&gt;[Person]&lt;br&gt;Берёт инвентарь в аренду" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#083D6B;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="120" y="300" width="230" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="admin" value="&lt;b&gt;Администратор&lt;/b&gt;&lt;br&gt;[Person]&lt;br&gt;Ведёт каталог инвентаря" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#083D6B;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="120" y="540" width="230" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="system" value="&lt;b&gt;Система проката&lt;br&gt;спортинвентаря&lt;/b&gt;&lt;br&gt;[Software System]&lt;br&gt;Оформление и возврат аренды,&lt;br&gt;учёт доступного инвентаря" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1168BD;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="570" y="280" width="360" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="channel" value="&lt;b&gt;Канал уведомлений&lt;/b&gt;&lt;br&gt;[External System]&lt;br&gt;Имитация: журнал&lt;br&gt;уведомлений в консоли" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#8C8C8C;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="300" width="280" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="e-client-system" value="Оформляет и возвращает аренду" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="client" target="system">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-admin-system" value="Добавляет и сопровождает инвентарь" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="admin" target="system">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-system-channel" value="События аренды (HTTP, запись в лог)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="system" target="channel">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="c4-container" name="C4 Container">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="C4 Level 2 — Containers" style="text;html=1;align=left;verticalAlign=top;fillColor=none;strokeColor=none;whiteSpace=wrap;fontSize=24;fontStyle=1;fontColor=#1F2933;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1000" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="subtitle" value="Сервисы, API Gateway и PostgreSQL: как контейнеры общаются между собой" style="text;html=1;align=left;verticalAlign=top;fillColor=none;strokeColor=none;whiteSpace=wrap;fontSize=14;fontColor=#52606D;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="1200" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="note-0" value="Пунктир — подключение сервиса к своей схеме в БД app через JDBC." style="text;html=1;align=left;verticalAlign=top;fillColor=none;strokeColor=none;whiteSpace=wrap;fontSize=12;fontColor=#52606D;" vertex="1" parent="1">
+          <mxGeometry x="60" y="672" width="1300" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="note-1" value="Штатный вход — API Gateway (/api/**); порты сервисов опубликованы только для отладки." style="text;html=1;align=left;verticalAlign=top;fillColor=none;strokeColor=none;whiteSpace=wrap;fontSize=12;fontColor=#52606D;" vertex="1" parent="1">
+          <mxGeometry x="60" y="696" width="1300" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="note-2" value="Сценарий: POST /api/rentals -&gt; rentals-service -&gt; users-service + equipment-service + PostgreSQL + notifications-service." style="text;html=1;align=left;verticalAlign=top;fillColor=none;strokeColor=none;whiteSpace=wrap;fontSize=12;fontColor=#52606D;" vertex="1" parent="1">
+          <mxGeometry x="60" y="720" width="1300" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="client" value="&lt;b&gt;Клиент&lt;/b&gt;&lt;br&gt;[Person]&lt;br&gt;Пользователь API" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#083D6B;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="60" y="380" width="190" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="gateway" value="&lt;b&gt;API Gateway&lt;/b&gt;&lt;br&gt;[Container: Spring Boot]&lt;br&gt;Маршрутизация /api/**" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1168BD;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="300" y="365" width="225" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="users" value="&lt;b&gt;users-service&lt;/b&gt;&lt;br&gt;[Container: Spring Boot]&lt;br&gt;Пользователи" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1168BD;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="620" y="90" width="250" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="equipment" value="&lt;b&gt;equipment-service&lt;/b&gt;&lt;br&gt;[Container: Spring Boot]&lt;br&gt;Каталог и остатки" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1168BD;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="620" y="220" width="250" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="notifications" value="&lt;b&gt;notifications-service&lt;/b&gt;&lt;br&gt;[Container: Spring Boot]&lt;br&gt;Уведомления (лог)" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1168BD;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="620" y="350" width="250" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="rentals" value="&lt;b&gt;rentals-service&lt;/b&gt;&lt;br&gt;[Container: Spring Boot]&lt;br&gt;Аренда (оркестратор)" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1168BD;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="620" y="480" width="250" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="db" value="&lt;b&gt;PostgreSQL 16&lt;/b&gt;&lt;br&gt;[Container: postgres:16]&lt;br&gt;БД app, volume db_data&lt;br&gt;4 схемы по сервисам" style="shape=cylinder3;boundedLbl=1;backgroundOutline=0;size=15;whiteSpace=wrap;html=1;fillColor=#1B6D4A;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="270" width="270" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="e-users-db" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#5B7FA6;dashed=1;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="users" target="db">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-equipment-db" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#5B7FA6;dashed=1;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="equipment" target="db">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-notifications-db" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#5B7FA6;dashed=1;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="notifications" target="db">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-rentals-db" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#5B7FA6;dashed=1;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="rentals" target="db">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-client-gateway" value="HTTPS / JSON" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="client" target="gateway">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-gateway-users" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="gateway" target="users">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-gateway-equipment" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="gateway" target="equipment">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-gateway-notifications" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="gateway" target="notifications">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-gateway-rentals" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="gateway" target="rentals">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-rentals-notifications" value="HTTP: уведомление" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="rentals" target="notifications">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-rentals-equipment" value="HTTP: reserve / release" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="rentals" target="equipment">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1000" y="522"/>
+              <mxPoint x="1000" y="262"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-rentals-users" value="HTTP: проверить пользователя" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="rentals" target="users">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1020" y="522"/>
+              <mxPoint x="1020" y="132"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="c4-component" name="C4 Component">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="C4 Level 3 — Components: rentals-service" style="text;html=1;align=left;verticalAlign=top;fillColor=none;strokeColor=none;whiteSpace=wrap;fontSize=24;fontStyle=1;fontColor=#1F2933;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1000" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="subtitle" value="Из каких компонентов состоит главный сервис и как он вызывает остальные" style="text;html=1;align=left;verticalAlign=top;fillColor=none;strokeColor=none;whiteSpace=wrap;fontSize=14;fontColor=#52606D;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="1200" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="note-0" value="RentalService — оркестратор: проверяет пользователя и остаток, бронирует инвентарь," style="text;html=1;align=left;verticalAlign=top;fillColor=none;strokeColor=none;whiteSpace=wrap;fontSize=12;fontColor=#52606D;" vertex="1" parent="1">
+          <mxGeometry x="610" y="682" width="1300" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="note-1" value="сохраняет аренду в PostgreSQL и отправляет уведомление. Ошибка уведомления не отменяет аренду." style="text;html=1;align=left;verticalAlign=top;fillColor=none;strokeColor=none;whiteSpace=wrap;fontSize=12;fontColor=#52606D;" vertex="1" parent="1">
+          <mxGeometry x="610" y="706" width="1300" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="boundary" value="Контейнер rentals-service" style="rounded=0;dashed=1;html=1;fillColor=none;strokeColor=#9AA4AE;verticalAlign=top;align=left;spacingLeft=12;spacingTop=4;fontColor=#52606D;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="115" width="780" height="520" as="geometry"/>
+        </mxCell>
+        <mxCell id="controller" value="&lt;b&gt;RentalController&lt;/b&gt;&lt;br&gt;REST /rentals" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1168BD;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="250" y="155" width="220" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="service" value="&lt;b&gt;RentalService&lt;/b&gt;&lt;br&gt;Бизнес-логика аренды" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1168BD;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="250" y="300" width="220" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="repository" value="&lt;b&gt;RentalRepository&lt;/b&gt;&lt;br&gt;JdbcTemplate / SQL" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1168BD;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="250" y="480" width="220" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="userClient" value="&lt;b&gt;UserServiceClient&lt;/b&gt;&lt;br&gt;RestClient" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1168BD;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="600" y="155" width="220" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="equipmentClient" value="&lt;b&gt;EquipmentServiceClient&lt;/b&gt;&lt;br&gt;RestClient" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1168BD;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="600" y="300" width="220" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="notificationClient" value="&lt;b&gt;NotificationServiceClient&lt;/b&gt;&lt;br&gt;RestClient" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#1168BD;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="600" y="480" width="220" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="users" value="&lt;b&gt;users-service&lt;/b&gt;&lt;br&gt;[Container]" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#8C8C8C;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="155" width="240" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="equipment" value="&lt;b&gt;equipment-service&lt;/b&gt;&lt;br&gt;[Container]" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#8C8C8C;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="300" width="240" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="notifications" value="&lt;b&gt;notifications-service&lt;/b&gt;&lt;br&gt;[Container]" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#8C8C8C;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="480" width="240" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="db" value="&lt;b&gt;PostgreSQL 16&lt;/b&gt;&lt;br&gt;[Container]&lt;br&gt;schema rentals_service,&lt;br&gt;таблица rentals" style="shape=cylinder3;boundedLbl=1;backgroundOutline=0;size=15;whiteSpace=wrap;html=1;fillColor=#1B6D4A;fontColor=#FFFFFF;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="250" y="700" width="310" height="115" as="geometry"/>
+        </mxCell>
+        <mxCell id="e-controller-service" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="controller" target="service">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-service-repository" value="save / update" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="service" target="repository">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-repository-db" value="SQL" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="repository" target="db">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-service-userClient" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="service" target="userClient">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="550" y="345"/>
+              <mxPoint x="550" y="190"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-service-equipmentClient" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="service" target="equipmentClient">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="550" y="345"/>
+              <mxPoint x="550" y="335"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-service-notificationClient" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="service" target="notificationClient">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="550" y="345"/>
+              <mxPoint x="550" y="515"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-userClient-users" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="userClient" target="users">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-equipmentClient-equipment" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="equipmentClient" target="equipment">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-notificationClient-notifications" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#C2681B;strokeWidth=2;fontSize=10;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="notificationClient" target="notifications">
+          <mxGeometry relative="1" as="geometry">
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

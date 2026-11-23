@@ -1,0 +1,135 @@
+name: sport-rental
+
+# Общие настройки подключения к PostgreSQL для всех сервисов.
+x-db-env: &db-env
+  SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/app
+  SPRING_DATASOURCE_USERNAME: postgres
+  SPRING_DATASOURCE_PASSWORD: "1234"
+
+services:
+
+  db:
+    build:
+      context: ./db
+    container_name: sport-rental-db
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "1234"
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d app" ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    networks:
+      - app-net
+    restart: unless-stopped
+
+  users-service:
+    build:
+      context: ./users-service
+    container_name: sport-rental-users
+    environment:
+      <<: *db-env
+      SERVER_PORT: 8081
+    ports:
+      - "8081:8081"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-net
+    restart: on-failure
+
+  equipment-service:
+    build:
+      context: ./equipment-service
+    container_name: sport-rental-equipment
+    environment:
+      <<: *db-env
+      SERVER_PORT: 8082
+    ports:
+      - "8082:8082"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-net
+    restart: on-failure
+
+  rentals-service:
+    build:
+      context: ./rentals-service
+    container_name: sport-rental-rentals
+    environment:
+      <<: *db-env
+      SERVER_PORT: 8083
+      USERS_SERVICE_URL: http://users-service:8081
+      EQUIPMENT_SERVICE_URL: http://equipment-service:8082
+      NOTIFICATIONS_SERVICE_URL: http://notifications-service:8084
+    ports:
+      - "8083:8083"
+    depends_on:
+      db:
+        condition: service_healthy
+      users-service:
+        condition: service_started
+      equipment-service:
+        condition: service_started
+      notifications-service:
+        condition: service_started
+    networks:
+      - app-net
+    restart: on-failure
+
+  notifications-service:
+    build:
+      context: ./notifications-service
+    container_name: sport-rental-notifications
+    environment:
+      <<: *db-env
+      SERVER_PORT: 8084
+    ports:
+      - "8084:8084"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-net
+    restart: on-failure
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+    container_name: sport-rental-gateway
+    environment:
+      SERVER_PORT: 8080
+      USERS_SERVICE_URL: http://users-service:8081
+      EQUIPMENT_SERVICE_URL: http://equipment-service:8082
+      RENTALS_SERVICE_URL: http://rentals-service:8083
+      NOTIFICATIONS_SERVICE_URL: http://notifications-service:8084
+    ports:
+      - "8080:8080"
+    depends_on:
+      users-service:
+        condition: service_started
+      equipment-service:
+        condition: service_started
+      rentals-service:
+        condition: service_started
+      notifications-service:
+        condition: service_started
+    networks:
+      - app-net
+    restart: on-failure
+
+networks:
+  app-net:
+    driver: bridge
+
+volumes:
+  db_data:

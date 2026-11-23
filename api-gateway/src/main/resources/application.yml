@@ -1,0 +1,21 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: api-gateway
+
+# Маршруты: /api/<service>/** уходит в соответствующий контейнер.
+gateway:
+  services:
+    users: ${USERS_SERVICE_URL:http://localhost:8081}
+    equipment: ${EQUIPMENT_SERVICE_URL:http://localhost:8082}
+    rentals: ${RENTALS_SERVICE_URL:http://localhost:8083}
+    notifications: ${NOTIFICATIONS_SERVICE_URL:http://localhost:8084}
+
+logging:
+  level:
+    root: INFO
+    com.sportrental: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n"
