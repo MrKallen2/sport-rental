@@ -25,6 +25,7 @@
 - [Логирование](#логирование)
 - [Конфигурация через environment](#конфигурация-через-environment)
 - [Структура проекта](#структура-проекта)
+- [Скриншоты](#скриншоты)
 - [Соответствие критериям](#соответствие-критериям)
 - [Публикация на GitHub](#публикация-на-github)
 
@@ -61,6 +62,8 @@
 | Редактируемая схема (diagrams.net) | [`docs/architecture.drawio`](docs/architecture.drawio) |
 
 Схемы сгенерированы из одного описания программой [`docs/tools/C4Generator.java`](docs/tools/C4Generator.java): `java docs/tools/C4Generator.java`. Поэтому PNG, combined-лист и `.drawio` всегда согласованы.
+
+Подробное текстовое описание по методологии C4 (Context, Container, Component) — в [`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE.md).
 
 ### Container-диаграмма (Mermaid)
 
@@ -544,6 +547,8 @@ HTTP -> notifications-service POST /notifications type=RENTAL_CREATED
 │   ├── architecture-container.png
 │   ├── architecture-component.png
 │   ├── architecture.png                # все уровни одним листом
+│   ├── architecture/ARCHITECTURE.md    # текстовое описание C4
+│   ├── screenshots/                    # снимки работающей системы (6 PNG)
 │   ├── verification.md                 # фактический вывод проверки
 │   ├── curl-examples.md                # справочник запросов curl
 │   └── tools/C4Generator.java          # генератор схем
@@ -555,6 +560,38 @@ HTTP -> notifications-service POST /notifications type=RENTAL_CREATED
 ├── .env.example
 └── README.md
 ```
+
+---
+
+## Скриншоты
+
+Реальные снимки работающей системы (вывод команд оформлен в виде терминала). Исходные PNG — в [`docs/screenshots/`](docs/screenshots/).
+
+**1. Запуск Docker Compose — 6 контейнеров:**
+
+![Docker Compose PS](docs/screenshots/1_docker_ps.png)
+
+**2. Минимальный сценарий через API Gateway (curl):**
+
+![API Requests](docs/screenshots/2_api_requests.png)
+
+**3. Данные в PostgreSQL (схемы и таблицы):**
+
+![Database](docs/screenshots/3_database.png)
+
+**4. Взаимодействие сервисов по HTTP (логи):**
+
+![Service Logs](docs/screenshots/4_logs.png)
+
+**5. Сохранность данных после перезапуска БД:**
+
+![Persistence](docs/screenshots/5_persistence.png)
+
+**6. Обработка ошибок (400 / 404 / 409):**
+
+![Errors](docs/screenshots/6_errors.png)
+
+Диаграммы C4 — в разделе [Архитектура](#архитектура-c4).
 
 ---
 
@@ -570,7 +607,7 @@ HTTP -> notifications-service POST /notifications type=RENTAL_CREATED
 | Docker Compose: сеть, environment, volumes | `docker-compose.yml` |
 | C4: Context, Container, Component | `docs/*.png`, `docs/architecture.drawio` |
 | README | этот файл |
-| Проверка результата | `docs/verification.md`, `scripts/demo.sh`, Postman-коллекция |
+| Проверка результата | `docs/verification.md`, `docs/screenshots/`, `scripts/demo.sh`, Postman-коллекция |
 
 ---
 
