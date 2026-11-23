@@ -611,14 +611,3 @@ HTTP -> notifications-service POST /notifications type=RENTAL_CREATED
 
 ---
 
-## Публикация на GitHub
-
-```bash
-git init
-git add .
-git commit -m "Sport rental microservices: gateway, 4 services, PostgreSQL, Docker Compose, C4 docs"
-git branch -M main
-git remote add origin https://github.com/<ваш-логин>/sport-rental.git
-git push -u origin main
-```
-
