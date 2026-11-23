@@ -622,4 +622,3 @@ git remote add origin https://github.com/<ваш-логин>/sport-rental.git
 git push -u origin main
 ```
 
-Перед публикацией проверьте, что в репозиторий не попали `target/`, `.env` и локальные файлы IDE — они исключены в `.gitignore`.
